@@ -410,11 +410,11 @@ void loop()
     pokazaniya = I2CData;
     Serial.println(pokazaniya);
     float pokazaniya1 = pokazaniya / 5;
-    for (float m = pokazaniya1; m >= 0; m-=0.1) {
+    for (float m = pokazaniya1; m >= 0; m -= 0.1) {
 
       String v = " 0";
       PokazaniyaStr = (String)m;
-//      PokazaniyaStr += v;
+      //      PokazaniyaStr += v;
       Serial.println(PokazaniyaStr);
       matrix.fillScreen(LOW);
 
