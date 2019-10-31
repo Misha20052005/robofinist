@@ -65,7 +65,7 @@ void DoXSteps(int XSteps) {
   if (XSteps) {
     StepperX.move(-XSteps);
     StepperX.runToPosition();
-//    StepperX.run();
+    //    StepperX.run();
     XCurent += XSteps;
 
   }
@@ -75,7 +75,7 @@ void DoYSteps(int YSteps) {
   if (YSteps) {
     StepperY.move(-YSteps);
     StepperY.runToPosition();
-//    StepperY.run();
+    //    StepperY.run();
     YCurent += YSteps;
 
   }
@@ -85,7 +85,7 @@ void DoZSteps(int ZSteps) {
   if (ZSteps) {
     StepperZ.move(-ZSteps);
     StepperZ.runToPosition();
-//    StepperZ.run();
+    //    StepperZ.run();
     ZCurent += ZSteps;
     //    Serial.println(ZTarget);
 
@@ -128,9 +128,9 @@ void loop() {
   int YSteps = YTarget - YCurent;
   int ZSteps = ZTarget - ZCurent;
 
-//  StepperX.run();
-//  StepperY.run();
-//  StepperZ.run();
+  //  StepperX.run();
+  //  StepperY.run();
+  //  StepperZ.run();
 
   if (XSteps > XStepPerLoop)
     XSteps = XStepPerLoop;
@@ -150,7 +150,7 @@ void loop() {
   if (XSteps || YSteps || ZSteps) {
     if (XTarget || YTarget || ZTarget)
       DoSteps(XSteps, YSteps, ZSteps);
-    else  
+    else
       DoSteps0(XSteps, YSteps, ZSteps);
   }
 }
@@ -182,7 +182,7 @@ void OnI2CReceiveEvent(int howMany) {
     }
   }
 
-  if ((ReceivedCount == 3)&&(Received[0] == -126)&&(Received[1] == -126)&&(Received[2] == -126)) {
+  if ((ReceivedCount == 3) && (Received[0] == -126) && (Received[1] == -126) && (Received[2] == -126)) {
     int ZToGo = StepperZ.distanceToGo();
     StepperX.move(0);
     StepperX.run();
@@ -191,7 +191,7 @@ void OnI2CReceiveEvent(int howMany) {
     StepperZ.move(0);
     StepperZ.run();
     Serial.println("Curent => Target (ToGo)");
-    Serial.println(String(ZCurent) + " => " + String(ZTarget)+ " ("+ String(ZToGo)+ ")");
+    Serial.println(String(ZCurent) + " => " + String(ZTarget) + " (" + String(ZToGo) + ")");
     Serial.println("Stop");
     XTarget = XCurent/* - ZToGo*/;
     YTarget = YCurent/* - ZToGo*/;
@@ -199,57 +199,57 @@ void OnI2CReceiveEvent(int howMany) {
     ReceivedCount = -1;
   }
 
-  if (ReceivedCount == 3 &&(Received[0] != -126)&&(Received[1] != -126)&&(Received[2] != -126) ) {
+  if (ReceivedCount == 3 && (Received[0] != -126) && (Received[1] != -126) && (Received[2] != -126) ) {
     Serial.println("ETS");
-    if (Received[0]!=-125) {
+    if (Received[0] != -125) {
       XTarget = (Received[0] + 120)  * XScale;
       if (XTarget < XMinPosition)
         XTarget = XMinPosition;
       if (XTarget > XMaxPosition)
         XTarget = XMaxPosition;
-    }  
-    if (Received[1]!=-125) {
+    }
+    if (Received[1] != -125) {
       YTarget = (Received[1] + 120)  * YScale;
       if (YTarget < YMinPosition)
         YTarget = YMinPosition;
       if (YTarget > YMaxPosition)
         YTarget = YMaxPosition;
-    }  
-    if (Received[2]!=-125) {
+    }
+    if (Received[2] != -125) {
       ZTarget = (Received[2] + 120) * ZScale;
       if (ZTarget < ZMinPosition)
         ZTarget = ZMinPosition;
       if (ZTarget > ZMaxPosition)
         ZTarget = ZMaxPosition;
-    }  
+    }
     Serial.println("Curent => Target");
     Serial.println(String(XCurent) + " => " + String(XTarget));
     Serial.println(String(YCurent) + " => " + String(YTarget));
     Serial.println(String(ZCurent) + " => " + String(ZTarget));
-    
-//    i = StepperZ.distanceToGo();
-//    if (XTarget == -126) {
-//      XTarget = XCurent;
-//      StepperX.move(0);
-//      StepperX.run();
-//    }
-//    if (YTarget == -126) {
-//      YTarget = YCurent;
-//      StepperY.move(0);
-//      StepperY.run();
-//    }
-//
-//    if (Received[2] == -126) {
-//      Serial.println("Stop");
-//      ZTarget = ZCurent;
-//      Serial.println(ZTarget);
-//      Serial.println(ZCurent);
-//      //      Serial.println(ZSteps);
-//      StepperZ.move(0);
-//      StepperZ.run();
-//
-//
-//    }
+
+    //    i = StepperZ.distanceToGo();
+    //    if (XTarget == -126) {
+    //      XTarget = XCurent;
+    //      StepperX.move(0);
+    //      StepperX.run();
+    //    }
+    //    if (YTarget == -126) {
+    //      YTarget = YCurent;
+    //      StepperY.move(0);
+    //      StepperY.run();
+    //    }
+    //
+    //    if (Received[2] == -126) {
+    //      Serial.println("Stop");
+    //      ZTarget = ZCurent;
+    //      Serial.println(ZTarget);
+    //      Serial.println(ZCurent);
+    //      //      Serial.println(ZSteps);
+    //      StepperZ.move(0);
+    //      StepperZ.run();
+    //
+    //
+    //    }
 
     ReceivedCount = -1;
   }
